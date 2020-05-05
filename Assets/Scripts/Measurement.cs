@@ -9,6 +9,8 @@ using TMPro;
 public class Measurement : MonoBehaviour
 {
     [SerializeField]
+    Transform parent;
+    [SerializeField]
     private GameObject MeasurePointPrefaab;
     [SerializeField]
     private GameObject distanceTxtPrefab;
@@ -22,13 +24,11 @@ public class Measurement : MonoBehaviour
     private GameObject[] startPoints;
     private GameObject[] endPoints;
     private TextMeshProUGUI[] distanceTxts;
-    private Color[] distanceColors;
     private Vector2 touchPosition = default;
     private static List<ARRaycastHit> hits = new List<ARRaycastHit>();
     public PlacementIndicator placementIndicator;
     bool startMeasuring;
     int currentIndex;
-    List<Color> selectedColors= new List<Color>();
   public enum Units
     {
         m_cm,ft_in,inch
@@ -41,7 +41,6 @@ public class Measurement : MonoBehaviour
         startPoints = new GameObject[100];
         endPoints = new GameObject[100];
         distanceTxts = new TextMeshProUGUI[100];
-        distanceColors = new Color[100];
     }
 
     public void setUnit(int _unit)
@@ -65,25 +64,23 @@ public class Measurement : MonoBehaviour
         if (!startMeasuring)
         {
             startPoints[currentIndex] = Instantiate(MeasurePointPrefaab, placementIndicator.transform.position, Quaternion.identity);
+            startPoints[currentIndex].transform.SetParent(parent);
             endPoints[currentIndex] = Instantiate(MeasurePointPrefaab, placementIndicator.transform.position, Quaternion.identity);
+            endPoints[currentIndex].transform.SetParent(parent);
+
             endPoints[currentIndex].transform.GetChild(0).gameObject.SetActive(false);
             GameObject dtxt = Instantiate(distanceTxtPrefab, (startPoints[currentIndex].transform.position + endPoints[currentIndex].transform.position) / 2, Quaternion.identity);
+            dtxt.transform.SetParent(parent);
+
             distanceTxts[currentIndex]= dtxt.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
             float camDist = Vector3.Distance(Camera.main.transform.position, endPoints[currentIndex].transform.position);
 
             dtxt.transform.localScale = dtxt.transform.localScale * camDist;
             Color color = UnityEngine.Random.ColorHSV();
           
-            for (int i = 0; i <= currentIndex; i++)
-            {
-                if (!campareColor(color, distanceColors[i]))
-                {
-                    distanceColors[currentIndex] = color;
+          
                     startMeasuring = true;
-                    dtxt.transform.GetChild(0).GetChild(1).GetComponent<Image>().color= color;
-                    break;
-                }
-            }
+          
             //Input.gyro.enabled = true;
         }
         else
@@ -103,13 +100,9 @@ public class Measurement : MonoBehaviour
            
             endPoints[currentIndex].transform.SetPositionAndRotation(placementIndicator.transform.position, Quaternion.identity);
             distanceTxts[currentIndex].transform.parent.parent.position = (startPoints[currentIndex].transform.position + endPoints[currentIndex].transform.position) / 2;
-            distanceTxts[currentIndex].color = distanceColors[currentIndex];
             startPoints[currentIndex].GetComponent<LineRenderer>().enabled = true;
             wml.SetPosition(0, startPoints[currentIndex].transform.position);
             wml.SetPosition(1, endPoints[currentIndex].transform.position);
-            
-            wml.startColor = distanceColors[currentIndex];
-            wml.endColor = distanceColors[currentIndex];          
             hml.startColor = Color.white;
             hml.endColor = Color.white;
             hml.SetPosition(0, startPoints[currentIndex].transform.position);
@@ -140,7 +133,41 @@ public class Measurement : MonoBehaviour
 
         }
     }
-
+    public void ClearAll()
+    {
+        foreach (Transform child in parent)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+        currentIndex = 0;
+    }
+    void clearStartPoints(int index)
+    {
+        for (int i = 0; i <= index; i++)
+        {
+            GameObject go = startPoints[i];
+            startPoints[i] = null;
+            Destroy(go);
+        }
+    }
+    void clearEndPoints(int index)
+    {
+        for (int i = 0; i <= index; i++)
+        {
+            GameObject go1 = endPoints[i];
+            endPoints[i] = null;
+            Destroy(go1);
+        }
+    }
+    void cleardistanceTxts(int index)
+    {
+        for (int i = 0; i <= index; i++)
+        {
+                       GameObject go2 = distanceTxts[i].gameObject;
+            distanceTxts[i] = null;
+            Destroy(go2);
+        }
+    }
     public bool campareColor(Color c1, Color c2)
     {
         if (c1.r == c2.r && c1.g == c2.g&& c1.b == c2.b&& c1.a == c2.a)

@@ -146,8 +146,8 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0
-        value: 0.008939907
+        time: 0.0031496058
+        value: 0.0055842027
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -159,7 +159,7 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 0.7118232, b: 0, a: 1}
+      key0: {r: 0.99607843, g: 0.6509804, b: 0.0627451, a: 1}
       key1: {r: 1, g: 0.7118232, b: 0, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}

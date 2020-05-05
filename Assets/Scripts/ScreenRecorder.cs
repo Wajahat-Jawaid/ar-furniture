@@ -23,7 +23,7 @@ public class ScreenRecorder : MonoBehaviour
         NativeControl.Instance().ShowToast("Saving...", ToastLenght.LENGTH_SHORT);
 
         // Save the screenshot to Gallery/Photos
-        Debug.Log("Permission result: " + NativeGallery.SaveImageToGallery(ss, "ARFurniture", "screenShot.png"));
+        Debug.Log("Permission result: " + NativeGallery.SaveImageToGallery(ss, "InterwoodAR", "screenShot.png"));
 
         yield return new WaitForEndOfFrame();
         NativeControl.Instance().ShowToast("Saved",ToastLenght.LENGTH_SHORT);
