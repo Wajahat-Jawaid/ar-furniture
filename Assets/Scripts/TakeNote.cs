@@ -8,8 +8,7 @@ using UnityEngine.EventSystems;
 public class TakeNote : MonoBehaviour ,IPointerDownHandler, IPointerUpHandler,IDragHandler ,IBeginDragHandler
 {
     private Vector3 lastMousePosition;
-
-    InputField inputField;
+    public InputField inputField;
     Text txt;
     bool showIf = false;
     Vector3 originalPositon;
@@ -19,12 +18,14 @@ public class TakeNote : MonoBehaviour ,IPointerDownHandler, IPointerUpHandler,ID
     {
         cam = Camera.main;
         txt = transform.GetChild(0).GetChild(0).GetChild(0). GetComponent<Text>();
-    }
-    public void setInputField(InputField inf)
-    {
-        inputField = inf;
         inputField.onValueChanged.AddListener(ChangeText);
+
     }
+    //public void setInputField(InputField inf)
+    //{
+    //    inputField = inf;
+    //    inputField.onValueChanged.AddListener(ChangeText);
+    //}
     // Update is called once per frame
     void ChangeText(string _txt)
     {
@@ -49,8 +50,6 @@ public class TakeNote : MonoBehaviour ,IPointerDownHandler, IPointerUpHandler,ID
     {
         Debug.Log(" OnPointerDown");
 
-        showIf = true;
-     
         originalPositon =  cam.ScreenToWorldPoint(new Vector3(eventData.position.x, eventData.position.y, cam.nearClipPlane));
     }
 
@@ -58,14 +57,13 @@ public class TakeNote : MonoBehaviour ,IPointerDownHandler, IPointerUpHandler,ID
     {
         Debug.Log(" OnPointerUp");
 
-        if (showIf)
-        {
+       
+
             inputField.gameObject.SetActive(true);
             inputField.text = txt.text;
             inputField.Select();
             inputField.ActivateInputField();
-            showIf = false;
-        }
+        
     }
 
     public void OnDrag(PointerEventData eventData)

@@ -28,7 +28,6 @@ public class NoteSpawner : MonoBehaviour
        GameObject noteObj= Instantiate(note, placementIndicator.transform.position, Quaternion.identity) as GameObject;
         noteObj.transform.SetParent(parent);
 
-        noteObj.GetComponent<TakeNote>().setInputField(noteif);
     }
     private void Update()
     {

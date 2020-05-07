@@ -28,8 +28,9 @@ public class Measurement : MonoBehaviour
     private static List<ARRaycastHit> hits = new List<ARRaycastHit>();
     public PlacementIndicator placementIndicator;
     bool startMeasuring;
-    int currentIndex;
-  public enum Units
+    int currentIndex; public float FixedSize = 1;
+    Vector3 fixedScale;
+    public enum Units
     {
         m_cm,ft_in,inch
     }
@@ -69,13 +70,15 @@ public class Measurement : MonoBehaviour
             endPoints[currentIndex].transform.SetParent(parent);
 
             endPoints[currentIndex].transform.GetChild(0).gameObject.SetActive(false);
-            GameObject dtxt = Instantiate(distanceTxtPrefab, (startPoints[currentIndex].transform.position + endPoints[currentIndex].transform.position) / 2, Quaternion.identity);
+            GameObject dtxt = Instantiate(distanceTxtPrefab, endPoints[currentIndex].transform.position + .2f * Vector3.Normalize(startPoints[currentIndex].transform.position - endPoints[currentIndex].transform.position)
+, Quaternion.identity);
             dtxt.transform.SetParent(parent);
 
             distanceTxts[currentIndex]= dtxt.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
-            float camDist = Vector3.Distance(Camera.main.transform.position, endPoints[currentIndex].transform.position);
+            float camDist = Vector3.Distance(Camera.main.transform.position, dtxt.transform.position);
 
             dtxt.transform.localScale = dtxt.transform.localScale * camDist;
+            fixedScale = dtxt.transform.localScale;
             Color color = UnityEngine.Random.ColorHSV();
           
           
@@ -99,7 +102,7 @@ public class Measurement : MonoBehaviour
             LineRenderer wml = endPoints[currentIndex].GetComponent<LineRenderer>();
            
             endPoints[currentIndex].transform.SetPositionAndRotation(placementIndicator.transform.position, Quaternion.identity);
-            distanceTxts[currentIndex].transform.parent.parent.position = (startPoints[currentIndex].transform.position + endPoints[currentIndex].transform.position) / 2;
+
             startPoints[currentIndex].GetComponent<LineRenderer>().enabled = true;
             wml.SetPosition(0, startPoints[currentIndex].transform.position);
             wml.SetPosition(1, endPoints[currentIndex].transform.position);
@@ -108,6 +111,14 @@ public class Measurement : MonoBehaviour
             hml.SetPosition(0, startPoints[currentIndex].transform.position);
             hml.SetPosition(1, startPoints[currentIndex].transform.position+new Vector3(0,15,0));     
             float dist = Vector3.Distance(startPoints[currentIndex].transform.position, endPoints[currentIndex].transform.position);
+            float camdist = Vector3.Distance(Camera.main.transform.position, distanceTxts[currentIndex].transform.parent.parent.position);
+            distanceTxts[currentIndex].transform.parent.parent.position = endPoints[currentIndex].transform.position + .2f *dist* Vector3.Normalize(startPoints[currentIndex].transform.position - endPoints[currentIndex].transform.position);
+
+            if ( camdist%100 >1 )
+            {
+                distanceTxts[currentIndex].transform.parent.parent.localScale = fixedScale * (camdist % 100);
+            }
+
             if (unit==Units.m_cm)
             {
                 if (dist < 1)
@@ -120,6 +131,7 @@ public class Measurement : MonoBehaviour
 
                 }
             }
+
             else if (unit == Units.ft_in)
             {
                 dist *= measureFactor;
