@@ -27,16 +27,16 @@ RectTransform:
   m_GameObject: {fileID: 970005898520291837}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children:
   - {fileID: 7227265391319851728}
   m_Father: {fileID: 7372889114027102092}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.037272997}
-  m_SizeDelta: {x: 0.2035, y: 0.0651}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -1.8758328e-10}
+  m_SizeDelta: {x: 0.08932, y: 0.03017}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5704241181411478328
 CanvasRenderer:
@@ -108,8 +108,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0143, y: 0}
-  m_SizeDelta: {x: 0.1415, y: 0.04}
+  m_AnchoredPosition: {x: 0.00000070897, y: 0}
+  m_SizeDelta: {x: 0.080143, y: 0.04}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8717329775406584055
 CanvasRenderer:
@@ -137,7 +137,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 99.99 CM
+  m_text: 99ft 99in
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
@@ -165,8 +165,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 0.03
-  m_fontSizeBase: 0.03
+  m_fontSize: 0.0155
+  m_fontSizeBase: 0.0155
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -203,13 +203,13 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -0.013016939, y: 0, z: 0.01704669, w: 0}
+  m_margin: {x: 0.007379543, y: 0.0063128658, z: 0.007925045, w: 0.008243103}
   m_textInfo:
     textComponent: {fileID: 755538235284294456}
-    characterCount: 8
+    characterCount: 9
     spriteCount: 0
     spaceCount: 1
-    wordCount: 3
+    wordCount: 2
     linkCount: 0
     lineCount: 1
     pageCount: 1
@@ -265,10 +265,10 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0.2821, y: 0.1528}
+  m_SizeDelta: {x: 0.2869, y: 0.0863}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &2819855121235467450
 Canvas:

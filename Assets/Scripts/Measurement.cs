@@ -70,16 +70,18 @@ public class Measurement : MonoBehaviour
             endPoints[currentIndex].transform.SetParent(parent);
 
             endPoints[currentIndex].transform.GetChild(0).gameObject.SetActive(false);
-            GameObject dtxt = Instantiate(distanceTxtPrefab, endPoints[currentIndex].transform.position + .2f * Vector3.Normalize(startPoints[currentIndex].transform.position - endPoints[currentIndex].transform.position)
+            GameObject dtxt = Instantiate(distanceTxtPrefab, endPoints[currentIndex].transform.position + .5f * Vector3.Normalize(startPoints[currentIndex].transform.position - endPoints[currentIndex].transform.position)
 , Quaternion.identity);
             dtxt.transform.SetParent(parent);
 
             distanceTxts[currentIndex]= dtxt.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
             float camDist = Vector3.Distance(Camera.main.transform.position, dtxt.transform.position);
+            if (camDist > 1 )
+            {
+                dtxt.transform.localScale = dtxt.transform.localScale * camDist;
 
-            dtxt.transform.localScale = dtxt.transform.localScale * camDist;
-            fixedScale = dtxt.transform.localScale;
-            Color color = UnityEngine.Random.ColorHSV();
+            }
+                Color color = UnityEngine.Random.ColorHSV();
           
           
                     startMeasuring = true;
@@ -102,7 +104,6 @@ public class Measurement : MonoBehaviour
             LineRenderer wml = endPoints[currentIndex].GetComponent<LineRenderer>();
            
             endPoints[currentIndex].transform.SetPositionAndRotation(placementIndicator.transform.position, Quaternion.identity);
-
             startPoints[currentIndex].GetComponent<LineRenderer>().enabled = true;
             wml.SetPosition(0, startPoints[currentIndex].transform.position);
             wml.SetPosition(1, endPoints[currentIndex].transform.position);
@@ -112,12 +113,27 @@ public class Measurement : MonoBehaviour
             hml.SetPosition(1, startPoints[currentIndex].transform.position+new Vector3(0,15,0));     
             float dist = Vector3.Distance(startPoints[currentIndex].transform.position, endPoints[currentIndex].transform.position);
             float camdist = Vector3.Distance(Camera.main.transform.position, distanceTxts[currentIndex].transform.parent.parent.position);
-            distanceTxts[currentIndex].transform.parent.parent.position = endPoints[currentIndex].transform.position + .2f *dist* Vector3.Normalize(startPoints[currentIndex].transform.position - endPoints[currentIndex].transform.position);
+            Debug.Log("dist : " + dist);
 
-            if ( camdist%100 >1 )
+            if (dist <= .75)
             {
-                distanceTxts[currentIndex].transform.parent.parent.localScale = fixedScale * (camdist % 100);
+                Debug.Log("dist1 : " + dist);
+
+                distanceTxts[currentIndex].transform.parent.parent.position =Vector3.Lerp(distanceTxts[currentIndex].transform.parent.parent.position, endPoints[currentIndex].transform.position + .5f * dist * Vector3.Normalize(startPoints[currentIndex].transform.position - endPoints[currentIndex].transform.position),5*Time.deltaTime);
             }
+            else
+            {
+                Debug.Log("dist2 : " + dist);
+
+                distanceTxts[currentIndex].transform.parent.parent.position = Vector3.Lerp(distanceTxts[currentIndex].transform.parent.parent.position, endPoints[currentIndex].transform.position + .25f * dist * Vector3.Normalize(startPoints[currentIndex].transform.position - endPoints[currentIndex].transform.position), 5 * Time.deltaTime);
+
+            }
+            if (camdist > 1)
+            {
+                distanceTxts[currentIndex].transform.parent.parent.transform.localScale = Vector3.one * camdist;
+
+            }
+            Debug.Log("local scale 222 :  " + distanceTxts[currentIndex].transform.parent.parent.transform.localScale);
 
             if (unit==Units.m_cm)
             {
